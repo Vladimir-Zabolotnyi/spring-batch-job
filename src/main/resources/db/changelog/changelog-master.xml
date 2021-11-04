@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.2.xsd">
+    <!--
+    V20210729202901
+      where:
+        - V means version
+        - 202107292029 means YYYYmmDDHHMM
+        - 01 sequence number with scale of 2 digits
+    -->
+
+    <property name="timestamp.type" dbms="hsqldb" value="timestamp"/>
+    <property name="datetime.type" dbms="hsqldb" value="datetime"/>
+    <property name="date.type" dbms="hsqldb" value="date"/>
+    <property name="decimal.type" dbms="hsqldb" value="DECIMAL(10,3)"/>
+    <property name="double.type" dbms="hsqldb" value="double"/>
+    <property name="boolean.type" dbms="hsqldb" value="BIT"/>
+    <property name="blob.type" dbms="hsqldb" value="BLOB"/>
+    <property name="now" dbms="hsqldb" value="CURRENT_TIMESTAMP"/>
+
+    <changeSet id="V20210804154901" author="VZ">
+        <comment>Apply spring batch HyperSQL schema</comment>
+        <sqlFile dbms="hsqldb"
+                 path="classpath:/org/springframework/batch/core/schema-hsqldb.sql"
+                 relativeToChangelogFile="false"
+                 splitStatements="true"
+                 stripComments="true"/>
+    </changeSet>
+    <changeSet id="V20211102134902" author="VZ">
+        <createTable tableName="player">
+            <column name="id" type="BIGINT" autoIncrement="true" startWith="1">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="player_id" type="VARCHAR(150)"/>
+            <column name="age" type="INT"/>
+            <column name="email" type="VARCHAR(150)"/>
+            <column name="created_at" type="TIMESTAMP"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
