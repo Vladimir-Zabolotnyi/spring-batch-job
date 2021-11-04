@@ -6,6 +6,9 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.transaction.support.TransactionTemplate
+import zabolotnyi.springbatchjob.player.Player
+import zabolotnyi.springbatchjob.player.PlayerRepository
+import zabolotnyi.springbatchjob.player.PlayerService
 
 @DisplayName("Player Service Test")
 class PlayerServiceTest @Autowired constructor(

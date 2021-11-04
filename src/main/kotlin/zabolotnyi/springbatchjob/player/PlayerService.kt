@@ -1,11 +1,13 @@
-package zabolotnyi.springbatchjob
+package zabolotnyi.springbatchjob.player
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.batch.core.*
+import org.springframework.batch.core.JobExecution
+import org.springframework.batch.core.JobInstance
 import org.springframework.batch.core.explore.JobExplorer
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import zabolotnyi.springbatchjob.job.ScheduleConfig
 import java.time.LocalDateTime
 import java.time.ZoneId
 
