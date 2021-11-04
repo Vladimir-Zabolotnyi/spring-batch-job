@@ -6,13 +6,15 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.transaction.support.TransactionTemplate
+import zabolotnyi.springbatchjob.player.Player
+import zabolotnyi.springbatchjob.player.PlayerRepository
 import java.time.LocalDateTime
 
 @DisplayName("Player Repository Test")
 class PlayerRepositoryTest @Autowired constructor(
     val playerRepository: PlayerRepository,
     val transactionTemplate: TransactionTemplate
-):IntegrationTest() {
+) : IntegrationTest() {
 
     @BeforeEach
     fun setUp() {

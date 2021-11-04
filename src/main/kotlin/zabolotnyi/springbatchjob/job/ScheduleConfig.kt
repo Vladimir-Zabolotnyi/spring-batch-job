@@ -1,4 +1,4 @@
-package zabolotnyi.springbatchjob
+package zabolotnyi.springbatchjob.job
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -8,12 +8,9 @@ import org.springframework.batch.core.launch.JobLauncher
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.context.annotation.Configuration
-import org.springframework.core.io.PathResource
 import org.springframework.scheduling.annotation.EnableScheduling
 import org.springframework.scheduling.annotation.Scheduled
-import java.io.File
 import java.util.UUID
-import kotlin.io.path.Path
 
 @Configuration
 @EnableScheduling

@@ -1,4 +1,4 @@
-package zabolotnyi.springbatchjob
+package zabolotnyi.springbatchjob.player
 
 import org.hibernate.annotations.CreationTimestamp
 import java.time.LocalDateTime
