@@ -1,4 +1,7 @@
-#spring:
-#  batch:
-#    job:
-#      enabled: false
+spring:
+  batch:
+    job:
+      enabled: false
+spring-batch-job:
+  scheduled-cron-expression: "*/15 * * * * ?"
+  path-to-import-file: "src/test/resources/testFiles"

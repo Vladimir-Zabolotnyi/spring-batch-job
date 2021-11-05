@@ -2,10 +2,10 @@ package zabolotnyi.springbatchjob.job
 
 import org.springframework.batch.item.ItemReader
 import org.springframework.batch.item.support.IteratorItemReader
-import zabolotnyi.springbatchjob.player.Converter
-import zabolotnyi.springbatchjob.player.CsvConverterStrategy
+import zabolotnyi.springbatchjob.converters.Converter
+import zabolotnyi.springbatchjob.converters.CsvConverterStrategy
 import zabolotnyi.springbatchjob.player.Player
-import zabolotnyi.springbatchjob.player.TxtConverterStrategy
+import zabolotnyi.springbatchjob.converters.TxtConverterStrategy
 import java.io.File
 
 data class CustomItemReader(var path: String = "") : ItemReader<Player> {
@@ -22,8 +22,8 @@ data class CustomItemReader(var path: String = "") : ItemReader<Player> {
     private fun getPlayers(): List<Player> {
         File(path).listFiles { dir, name -> name.startsWith("player") }[0].run {
             return when (this.name.split(".").last()) {
-                "csv" -> Converter(CsvConverterStrategy()).convert(this)
-                "txt" -> Converter(TxtConverterStrategy()).convert(this)
+                "csv" -> Converter(CsvConverterStrategy()).convertToPlayer(this)
+                "txt" -> Converter(TxtConverterStrategy()).convertToPlayer(this)
                 else -> listOf()
             }
         }

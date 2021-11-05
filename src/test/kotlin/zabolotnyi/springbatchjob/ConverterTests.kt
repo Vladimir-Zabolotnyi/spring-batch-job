@@ -3,8 +3,8 @@ package zabolotnyi.springbatchjob
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
-import zabolotnyi.springbatchjob.player.CsvConverterStrategy
-import zabolotnyi.springbatchjob.player.TxtConverterStrategy
+import zabolotnyi.springbatchjob.converters.CsvConverterStrategy
+import zabolotnyi.springbatchjob.converters.TxtConverterStrategy
 import java.io.File
 
 @DisplayName("Player Converter Test")
@@ -15,7 +15,7 @@ class ConverterTests {
         val csvConverter = CsvConverterStrategy()
         val dir = File("src/test/resources/testFiles")
         val listFiles = dir.listFiles { dir, name -> name.endsWith(".csv") }
-        val listOfPlayer = csvConverter.convertToEntity(listFiles[0])
+        val listOfPlayer = csvConverter.convertToPlayers(listFiles[0])
         assertThat(listOfPlayer.size).isEqualTo(listFiles[0].readLines().size)
     }
 
@@ -24,7 +24,7 @@ class ConverterTests {
         val txtConverter = TxtConverterStrategy()
         val dir = File("src/test/resources/testFiles")
         val listFiles = dir.listFiles { dir, name -> name.endsWith(".txt") }
-        val listOfPlayer = txtConverter.convertToEntity(listFiles[0])
+        val listOfPlayer = txtConverter.convertToPlayers(listFiles[0])
         assertThat(listOfPlayer.size).isEqualTo(listFiles[0].readLines().size)
     }
 }

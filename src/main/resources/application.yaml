@@ -18,7 +18,10 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.HSQLDialect
         current_session_context_class: org.springframework.orm.hibernate5.SpringSessionContext
-
+  batch:
+    job:
+      enabled: false
 spring-batch-job:
   scheduled-cron-expression: "0 */1 * * * ?"
+  path-to-import-file: "src/main/resources/filesToImport"
 

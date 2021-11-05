@@ -26,7 +26,7 @@ class PlayerServiceTest @Autowired constructor(
     fun `should get all player`() {
 
         // given
-        val created = transactionTemplate.execute {
+        transactionTemplate.execute {
             playerRepository.saveAll(
                 listOf(
                     Player(playerId = "1x", age = 19, email = "e@com"),

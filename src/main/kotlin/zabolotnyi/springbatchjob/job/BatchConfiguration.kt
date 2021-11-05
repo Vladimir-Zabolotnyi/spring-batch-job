@@ -16,17 +16,24 @@ import org.springframework.batch.item.file.FlatFileItemReader
 import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper
 import org.springframework.batch.repeat.RepeatStatus.FINISHED
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.io.PathResource
+import zabolotnyi.springbatchjob.converters.Converter
+import zabolotnyi.springbatchjob.converters.CsvConverterStrategy
+import zabolotnyi.springbatchjob.converters.TxtConverterStrategy
+import zabolotnyi.springbatchjob.game.GameRepository
 import zabolotnyi.springbatchjob.player.Player
 import zabolotnyi.springbatchjob.player.PlayerRepository
+import java.io.File
 import javax.sql.DataSource
 
 @Configuration
 @EnableBatchProcessing
-class BatchConfiguration {
-    val path = "src/main/resources/filesToImport"
+class BatchConfiguration(
+   @Value("\${spring-batch-job.path-to-import-file}") private val path: String) {
+
 
     @Bean
     fun writerJdbcDefault(dataSource: DataSource): JdbcBatchItemWriter<Player> =
@@ -40,7 +47,7 @@ class BatchConfiguration {
     fun readerFlatDefault(): FlatFileItemReader<Player> =
         FlatFileItemReaderBuilder<Player>()
             .name("playerReader")
-            .resource(PathResource("src/main/resources/filesToImport/das.csv"))
+            .resource(PathResource("src/main/resources/filesToImport/players.csv"))
             .delimited()
             .names("playerId", "age", "email")
             .fieldSetMapper(object : BeanWrapperFieldSetMapper<Player>() {
@@ -81,14 +88,38 @@ class BatchConfiguration {
             .build()
 
     @Bean
+    fun gameImportStep(steps: StepBuilderFactory, gameRepository: GameRepository): Step =
+        steps.get("gameImportStep")
+            .tasklet { contribution, chunkContext ->
+                File(path).listFiles { dir, name -> name.startsWith("games") }[0].run {
+                    when (this.name.split(".").last()) {
+                        "csv" -> {
+                            Converter(CsvConverterStrategy())
+                                .convertToGame(this)
+                                .run { gameRepository.saveAll(this) }
+                        }
+                        "txt" -> Converter(TxtConverterStrategy())
+                            .convertToGame(this)
+                            .run { gameRepository.saveAll(this) }
+                        else -> FINISHED
+                    }
+
+                }
+                FINISHED
+            }
+            .build()
+
+    @Bean
     fun importPlayerJob(
         jobs: JobBuilderFactory,
         listener: JobCompletionNotificationListener,
         playerImportStep: Step,
+        gameImportStep: Step
     ): Job =
         jobs.get("importPlayerJob")
             .incrementer(RunIdIncrementer())
             .listener(listener)
             .start(playerImportStep)
+            .next(gameImportStep)
             .build()
 }
