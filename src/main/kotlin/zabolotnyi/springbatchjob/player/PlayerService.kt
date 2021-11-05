@@ -7,14 +7,13 @@ import org.springframework.batch.core.JobInstance
 import org.springframework.batch.core.explore.JobExplorer
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import zabolotnyi.springbatchjob.job.ScheduleConfig
 import java.time.LocalDateTime
 import java.time.ZoneId
 
 @Service
 class PlayerService @Autowired constructor(
     val playerRepository: PlayerRepository,
-    val scheduleConfig: ScheduleConfig,
+    val schedulePlayerJobConfig: SchedulePlayerJobConfig,
     val jobExplorer: JobExplorer,
 ) {
     private val logger: Logger = LoggerFactory.getLogger(PlayerService::class.java)
@@ -26,7 +25,7 @@ class PlayerService @Autowired constructor(
     }
 
     fun getLastAddedPlayer(): List<Player> {
-        val jobInstance = jobExplorer.getLastJobInstance(scheduleConfig.job.name) ?: JobInstance(-1L, "unknown")
+        val jobInstance = jobExplorer.getLastJobInstance(schedulePlayerJobConfig.job.name) ?: JobInstance(-1L, "unknown")
         val lastJobExecution: JobExecution = jobExplorer.getLastJobExecution(jobInstance) ?: JobExecution(-1L)
         val createTime = lastJobExecution.createTime
         val lastAddedPlayers =
@@ -41,7 +40,7 @@ class PlayerService @Autowired constructor(
     }
 
     fun executeImportPlayerJob() {
-        scheduleConfig.runJob()
+        schedulePlayerJobConfig.runJob()
         logger.info("Job was run manually")
     }
 }

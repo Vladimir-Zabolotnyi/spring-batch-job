@@ -25,3 +25,13 @@ spring-batch-job:
   scheduled-cron-expression: "0 */1 * * * ?"
   path-to-import-file: "src/main/resources/filesToImport"
 
+import:
+  strategy:
+    csv:
+      type: file
+      extension: csv
+      datasource: src/main/resources/filesToImport
+    txt:
+      type: file
+      extension: txt
+      datasource: src/main/resources/filesToImport

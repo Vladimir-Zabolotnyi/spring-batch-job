@@ -1,4 +1,4 @@
-package zabolotnyi.springbatchjob.job
+package zabolotnyi.springbatchjob.game
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -14,11 +14,11 @@ import java.util.UUID
 
 @Configuration
 @EnableScheduling
-class ScheduleConfig @Autowired constructor(
+class ScheduleGameJobConfig @Autowired constructor(
     val jobLauncher: JobLauncher,
-    @Qualifier("importPlayerJob") val job: Job,
+    @Qualifier("importGameJob") val job: Job,
 ) {
-    val logger: Logger = LoggerFactory.getLogger(ScheduleConfig::class.java)
+    val logger: Logger = LoggerFactory.getLogger(ScheduleGameJobConfig::class.java)
 
     @Scheduled(cron = "\${spring-batch-job.scheduled-cron-expression}")
     fun runJob() = JobParametersBuilder()

@@ -1,10 +1,8 @@
-package zabolotnyi.springbatchjob.job
+package zabolotnyi.springbatchjob.player
 
 import org.springframework.batch.item.ItemWriter
-import zabolotnyi.springbatchjob.player.Player
-import zabolotnyi.springbatchjob.player.PlayerRepository
 
-class CustomItemWriter(
+class DatasourceWriter(
     private val playerRepository: PlayerRepository
 ) : ItemWriter<Player> {
 
