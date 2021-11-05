@@ -28,7 +28,7 @@ class BatchJobTest @Autowired constructor(
     fun `should import players and games from testFiles directory`() {
 
         // when
-        TimeUnit.SECONDS.sleep(20)
+        TimeUnit.SECONDS.sleep(15)
 
         // then
         assertThat(playerRepository.findAll().size).isEqualTo(
