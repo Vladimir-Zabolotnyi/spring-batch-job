@@ -7,10 +7,10 @@ import java.io.File
 
 class StrategyFactory {
 
-    private val logger: Logger = LoggerFactory.getLogger(PlayerService::class.java)       // 
+    private val logger: Logger = LoggerFactory.getLogger(PlayerService::class.java)
 
     companion object {
-        fun convertToList(strategy: DatasourceStrategy, file: File): List<List<String>> {     // return Strategy
+        fun convertToList(strategy: DatasourceStrategy, file: File): List<List<String>> {
             return strategy.readDatasource(file)
         }
     }
